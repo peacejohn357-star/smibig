@@ -6,24 +6,35 @@
     <variable id="v_cooldown_counter">cooldown_counter</variable>
     <variable id="v_multiplier">martingale_multiplier</variable>
     <variable id="v_entry_side">entry_side</variable>
-    <variable id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</variable>
+    <variable id="wyH7=]DV[E#j!QdPjJly">tick_list</variable>
+    <variable id="v_ema">ema</variable>
+    <variable id="v_ema_prev">ema_prev</variable>
+    <variable id="v_gamma">gamma</variable>
+    <variable id="v_tilt_ema">tilt_ema</variable>
+    <variable id="v_tilt_ema_norm">tilt_ema_norm</variable>
+    <variable id="v_maxN">maxN</variable>
+    <variable id="v_minN">minN</variable>
+    <variable id="v_rangeN">rangeN</variable>
+    <variable id="v_diff">diff</variable>
+    <variable id="v_adj">adj</variable>
+    <variable id="v_price_now">price_now</variable>
     <variable id="v_entry_hist">entry_hist</variable>
-    <variable id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</variable>
+    <variable id="k0U[iGvT9WD_-b|IMFqW">N</variable>
     <variable id="$qh|nR[O`mjD`=P@QWDx">last_histogram</variable>
     <variable id="v_entry_hist_prev">entry_hist_prev</variable>
     <variable id="[6Ww!y#PNM1y,5,I$jlp"> candles_1m</variable>
-    <variable id="_0-cW.9/4PpYxKm7WZd3">SMI_EMA_1</variable>
+    <variable id="_0-cW.9/4PpYxKm7WZd3">alpha</variable>
     <variable id="v_prev_hist">prev_histogram</variable>
     <variable id="v_entry_line">entry_line</variable>
-    <variable id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</variable>
+    <variable id="SsOL)9k:n-YE{IyR]r-z">tilt</variable>
     <variable id="#j4xss#FZJL1n}fX@6^_">last_macd_line</variable>
     <variable id="v_entry_sig">entry_sig</variable>
     <variable id="Z~!~fr7w+ZxI?,0`2FC;">Fast_List</variable>
-    <variable id="?m3=qi+=vGv+,$THi-j6">SMI_Prior</variable>
+    <variable id="?m3=qi+=vGv+,$THi-j6">epsilon</variable>
     <variable id="+3WHuxNmMx}45=zST`-Z">last_macd_signal</variable>
     <variable id="v_entry_spread">entry_spread</variable>
     <variable id="=9}ul6mT4]itI?M{oK3;">Midpoint</variable>
-    <variable id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</variable>
+    <variable id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</variable>
     <variable id="v_entry_rsi">entry_rsi</variable>
     <variable id="=g@.dEx;.l|Dw{J(F0_x">Raw_Data</variable>
     <variable id="v_tick_warmup">tick_warmup</variable>
@@ -114,195 +125,210 @@
                       </block>
                     </value>
                     <next>
-                      <block type="lists_create_with" id="T)OIZk;;2)p/(~zl#yv0">
-                        <field name="VARIABLE" id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</field>
+                      <block type="variables_set" id="init_N">
+                        <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">N</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="init_N_val">
+                            <field name="NUM">20</field>
+                          </block>
+                        </value>
                         <next>
-                          <block type="lists_create_with" id="p0=1OChpr*$PAx]m2_MS">
-                            <field name="VARIABLE" id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</field>
+                          <block type="variables_set" id="init_alpha">
+                            <field name="VAR" id="_0-cW.9/4PpYxKm7WZd3">alpha</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="init_alpha_val">
+                                <field name="NUM">0.3</field>
+                              </block>
+                            </value>
                             <next>
-                              <block type="variables_set" id=")ry@ee0o:S7T[OVL+qNz">
-                                <field name="VAR" id="_0-cW.9/4PpYxKm7WZd3">SMI_EMA_1</field>
+                              <block type="variables_set" id="init_gamma">
+                                <field name="VAR" id="v_gamma">gamma</field>
                                 <value name="VALUE">
-                                  <block type="math_number" id="`mH|t+Wz5]JLl%*h_?(E">
-                                    <field name="NUM">0</field>
+                                  <block type="math_number" id="init_gamma_val">
+                                    <field name="NUM">0.3</field>
                                   </block>
                                 </value>
                                 <next>
-                                  <block type="variables_set" id="MfsRq)BL/D:c=,4]HkFR">
-                                    <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
+                                  <block type="variables_set" id="init_epsilon">
+                                    <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
                                     <value name="VALUE">
-                                      <block type="math_number" id="~5/5(5.YY5E@ayZtgwoM">
-                                        <field name="NUM">0</field>
+                                      <block type="math_number" id="init_epsilon_val">
+                                        <field name="NUM">0.00000001</field>
                                       </block>
                                     </value>
                                     <next>
-                                      <block type="variables_set" id="y.#{3KVBFU-l((*/:u50">
-                                        <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">SMI_Prior</field>
-                                        <value name="VALUE">
-                                          <block type="math_number" id="S#{pi+bWzF.F9_NcK0@1">
-                                            <field name="NUM">0</field>
-                                          </block>
-                                        </value>
+                                      <block type="lists_create_with" id="init_tick_list">
+                                        <field name="VARIABLE" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
                                         <next>
-                                          <block type="variables_set" id="+wS5~epI1AUCNqy=%$l}">
-                                            <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                          <block type="variables_set" id="init_ema">
+                                            <field name="VAR" id="v_ema">ema</field>
                                             <value name="VALUE">
-                                              <block type="math_number" id="0^RkEiCukh(??X4YNW:@">
+                                              <block type="math_number" id="init_ema_val">
                                                 <field name="NUM">0</field>
                                               </block>
                                             </value>
                                             <next>
-                                              <block type="variables_set" id="init_tick_warmup">
-                                                <field name="VAR" id="v_tick_warmup">tick_warmup</field>
+                                              <block type="variables_set" id="init_tilt_ema">
+                                                <field name="VAR" id="v_tilt_ema">tilt_ema</field>
                                                 <value name="VALUE">
-                                                  <block type="math_number" id="init_tick_warmup_val">
+                                                  <block type="math_number" id="init_tilt_ema_val">
                                                     <field name="NUM">0</field>
                                                   </block>
                                                 </value>
                                                 <next>
-                                                  <block type="variables_set" id="init_macd_line">
-                                                    <field name="VAR" id="v_macd_line">macd_line</field>
+                                                  <block type="variables_set" id="init_tick_warmup">
+                                                    <field name="VAR" id="v_tick_warmup">tick_warmup</field>
                                                     <value name="VALUE">
-                                                      <block type="math_number" id="init_macd_line_val">
+                                                      <block type="math_number" id="init_tick_warmup_val">
                                                         <field name="NUM">0</field>
                                                       </block>
                                                     </value>
                                                     <next>
-                                                      <block type="variables_set" id="init_macd_signal">
-                                                        <field name="VAR" id="v_macd_signal">macd_signal_line</field>
+                                                      <block type="variables_set" id="init_macd_line">
+                                                        <field name="VAR" id="v_macd_line">macd_line</field>
                                                         <value name="VALUE">
-                                                          <block type="math_number" id="init_macd_signal_val">
+                                                          <block type="math_number" id="init_macd_line_val">
                                                             <field name="NUM">0</field>
                                                           </block>
                                                         </value>
                                                         <next>
-                                                          <block type="variables_set" id="init_macd_histogram">
-                                                            <field name="VAR" id="v_macd_histogram">macd_histogram</field>
+                                                          <block type="variables_set" id="init_macd_signal">
+                                                            <field name="VAR" id="v_macd_signal">macd_signal_line</field>
                                                             <value name="VALUE">
-                                                              <block type="math_number" id="init_macd_histogram_val">
+                                                              <block type="math_number" id="init_macd_signal_val">
                                                                 <field name="NUM">0</field>
                                                               </block>
                                                             </value>
                                                             <next>
-                                                              <block type="variables_set" id="tq`lsKj^!l};kf-9`^`W">
-                                                                <field name="VAR" id="v_consec_loss">consecutive_losses</field>
+                                                              <block type="variables_set" id="init_macd_histogram">
+                                                                <field name="VAR" id="v_macd_histogram">macd_histogram</field>
                                                                 <value name="VALUE">
-                                                                  <block type="math_number" id=";(zO0gPpP7rpICN75q6:">
+                                                                  <block type="math_number" id="init_macd_histogram_val">
                                                                     <field name="NUM">0</field>
                                                                   </block>
                                                                 </value>
                                                                 <next>
-                                                                  <block type="variables_set" id="lshZg#D#xhBmg,nE#p?q">
-                                                                    <field name="VAR" id="v_entry_side">entry_side</field>
+                                                                  <block type="variables_set" id="tq`lsKj^!l};kf-9`^`W">
+                                                                    <field name="VAR" id="v_consec_loss">consecutive_losses</field>
                                                                     <value name="VALUE">
-                                                                      <block type="text" id="a0pE5P;;G;9N@A?10OG#">
-                                                                        <field name="TEXT"></field>
+                                                                      <block type="math_number" id=";(zO0gPpP7rpICN75q6:">
+                                                                        <field name="NUM">0</field>
                                                                       </block>
                                                                     </value>
                                                                     <next>
-                                                                      <block type="variables_set" id="zr!$?_f6n)HUHMs?F`z:">
-                                                                        <field name="VAR" id="v_entry_price">entry_price</field>
+                                                                      <block type="variables_set" id="lshZg#D#xhBmg,nE#p?q">
+                                                                        <field name="VAR" id="v_entry_side">entry_side</field>
                                                                         <value name="VALUE">
-                                                                          <block type="math_number" id="/4p/!G@bgkCT.$nnJAOo">
-                                                                            <field name="NUM">0</field>
+                                                                          <block type="text" id="a0pE5P;;G;9N@A?10OG#">
+                                                                            <field name="TEXT"></field>
                                                                           </block>
                                                                         </value>
                                                                         <next>
-                                                                          <block type="variables_set" id="?)P@N2+z+@zIHr]b;+R7">
-                                                                            <field name="VAR" id="v_entry_hist">entry_hist</field>
+                                                                          <block type="variables_set" id="zr!$?_f6n)HUHMs?F`z:">
+                                                                            <field name="VAR" id="v_entry_price">entry_price</field>
                                                                             <value name="VALUE">
-                                                                              <block type="math_number" id="dC!hTA=$`#@Uz1|+6]~K">
+                                                                              <block type="math_number" id="/4p/!G@bgkCT.$nnJAOo">
                                                                                 <field name="NUM">0</field>
                                                                               </block>
                                                                             </value>
                                                                             <next>
-                                                                              <block type="variables_set" id="5JQqoAdLDU@_$wk{``y,">
-                                                                                <field name="VAR" id="v_entry_hist_prev">entry_hist_prev</field>
+                                                                              <block type="variables_set" id="?)P@N2+z+@zIHr]b;+R7">
+                                                                                <field name="VAR" id="v_entry_hist">entry_hist</field>
                                                                                 <value name="VALUE">
-                                                                                  <block type="math_number" id="fIb^9441B3N6k^GQ=nwg">
+                                                                                  <block type="math_number" id="dC!hTA=$`#@Uz1|+6]~K">
                                                                                     <field name="NUM">0</field>
                                                                                   </block>
                                                                                 </value>
                                                                                 <next>
-                                                                                  <block type="variables_set" id="1*m}^0Yd.p|q:Q??ETNp">
-                                                                                    <field name="VAR" id="v_entry_line">entry_line</field>
+                                                                                  <block type="variables_set" id="5JQqoAdLDU@_$wk{``y,">
+                                                                                    <field name="VAR" id="v_entry_hist_prev">entry_hist_prev</field>
                                                                                     <value name="VALUE">
-                                                                                      <block type="math_number" id="=/Y#pe=BW[]obTS:7KhJ">
+                                                                                      <block type="math_number" id="fIb^9441B3N6k^GQ=nwg">
                                                                                         <field name="NUM">0</field>
                                                                                       </block>
                                                                                     </value>
                                                                                     <next>
-                                                                                      <block type="variables_set" id="YFJX4#+R!!3jO:kxh#L:">
-                                                                                        <field name="VAR" id="v_entry_sig">entry_sig</field>
+                                                                                      <block type="variables_set" id="1*m}^0Yd.p|q:Q??ETNp">
+                                                                                        <field name="VAR" id="v_entry_line">entry_line</field>
                                                                                         <value name="VALUE">
-                                                                                          <block type="math_number" id="M5J/9V+EcO/s=*s#y-!U">
+                                                                                          <block type="math_number" id="=/Y#pe=BW[]obTS:7KhJ">
                                                                                             <field name="NUM">0</field>
                                                                                           </block>
                                                                                         </value>
                                                                                         <next>
-                                                                                          <block type="variables_set" id="O*ZU=j-~47twPr^}GUV(">
-                                                                                            <field name="VAR" id="v_entry_spread">entry_spread</field>
+                                                                                          <block type="variables_set" id="YFJX4#+R!!3jO:kxh#L:">
+                                                                                            <field name="VAR" id="v_entry_sig">entry_sig</field>
                                                                                             <value name="VALUE">
-                                                                                              <block type="math_number" id="bJxa*2K@Gj/hBoHFEDJT">
+                                                                                              <block type="math_number" id="M5J/9V+EcO/s=*s#y-!U">
                                                                                                 <field name="NUM">0</field>
                                                                                               </block>
                                                                                             </value>
                                                                                             <next>
-                                                                                              <block type="variables_set" id="6uG)1?tkC)S/bso_6/n9">
-                                                                                                <field name="VAR" id="v_entry_rsi">entry_rsi</field>
+                                                                                              <block type="variables_set" id="O*ZU=j-~47twPr^}GUV(">
+                                                                                                <field name="VAR" id="v_entry_spread">entry_spread</field>
                                                                                                 <value name="VALUE">
-                                                                                                  <block type="math_number" id="Tx]9cY*Zv+0GjUaTVK/}">
+                                                                                                  <block type="math_number" id="bJxa*2K@Gj/hBoHFEDJT">
                                                                                                     <field name="NUM">0</field>
                                                                                                   </block>
                                                                                                 </value>
                                                                                                 <next>
-                                                                                                  <block type="variables_set" id="K]ID~2AM{ZE{1SY~n:3d">
-                                                                                                    <field name="VAR" id="v_entry_ema_gap">entry_ema_gap</field>
+                                                                                                  <block type="variables_set" id="6uG)1?tkC)S/bso_6/n9">
+                                                                                                    <field name="VAR" id="v_entry_rsi">entry_rsi</field>
                                                                                                     <value name="VALUE">
-                                                                                                      <block type="math_number" id="dP~S^924b3{mPwP9uEFt">
+                                                                                                      <block type="math_number" id="Tx]9cY*Zv+0GjUaTVK/}">
                                                                                                         <field name="NUM">0</field>
                                                                                                       </block>
                                                                                                     </value>
                                                                                                     <next>
-                                                                                                      <block type="variables_set" id="k7eJyP%isU6QvLI$|pp}">
-                                                                                                        <field name="VAR" id="v_entry_bb_w">entry_bb_w</field>
+                                                                                                      <block type="variables_set" id="K]ID~2AM{ZE{1SY~n:3d">
+                                                                                                        <field name="VAR" id="v_entry_ema_gap">entry_ema_gap</field>
                                                                                                         <value name="VALUE">
-                                                                                                          <block type="math_number" id="|@`x;`,USoQleW-K:de^">
+                                                                                                          <block type="math_number" id="dP~S^924b3{mPwP9uEFt">
                                                                                                             <field name="NUM">0</field>
                                                                                                           </block>
                                                                                                         </value>
                                                                                                         <next>
-                                                                                                          <block type="variables_set" id="yCyzZdkTh(aA9+p=RdC#">
-                                                                                                            <field name="VAR" id="v_entry_bb_w_prev">entry_bb_w_prev</field>
+                                                                                                          <block type="variables_set" id="k7eJyP%isU6QvLI$|pp}">
+                                                                                                            <field name="VAR" id="v_entry_bb_w">entry_bb_w</field>
                                                                                                             <value name="VALUE">
-                                                                                                              <block type="math_number" id="gUnRSstExg{6~X07Q556">
+                                                                                                              <block type="math_number" id="|@`x;`,USoQleW-K:de^">
                                                                                                                 <field name="NUM">0</field>
                                                                                                               </block>
                                                                                                             </value>
                                                                                                             <next>
-                                                                                                              <block type="variables_set" id="wk!S?w7*#z4,`?3R5e-B">
-                                                                                                                <field name="VAR" id="v_entry_dist_mid">entry_dist_mid</field>
+                                                                                                              <block type="variables_set" id="yCyzZdkTh(aA9+p=RdC#">
+                                                                                                                <field name="VAR" id="v_entry_bb_w_prev">entry_bb_w_prev</field>
                                                                                                                 <value name="VALUE">
-                                                                                                                  <block type="math_number" id="}i}r_6rv^56#Wij__pt)">
+                                                                                                                  <block type="math_number" id="gUnRSstExg{6~X07Q556">
                                                                                                                     <field name="NUM">0</field>
                                                                                                                   </block>
                                                                                                                 </value>
                                                                                                                 <next>
-                                                                                                                  <block type="variables_set" id="*oQ1pAsG[$u9/D^znJWj">
-                                                                                                                    <field name="VAR" id="v_entry_loss_streak">entry_loss_streak</field>
+                                                                                                                  <block type="variables_set" id="wk!S?w7*#z4,`?3R5e-B">
+                                                                                                                    <field name="VAR" id="v_entry_dist_mid">entry_dist_mid</field>
                                                                                                                     <value name="VALUE">
-                                                                                                                      <block type="math_number" id="!X5`00xmR6t_(jc!n7^H">
+                                                                                                                      <block type="math_number" id="}i}r_6rv^56#Wij__pt)">
                                                                                                                         <field name="NUM">0</field>
                                                                                                                       </block>
                                                                                                                     </value>
                                                                                                                     <next>
-                                                                                                                      <block type="variables_set" id="w5(az{r4o)LdSl9[(-#o">
-                                                                                                                        <field name="VAR" id="v_prev_hist">prev_histogram</field>
+                                                                                                                      <block type="variables_set" id="*oQ1pAsG[$u9/D^znJWj">
+                                                                                                                        <field name="VAR" id="v_entry_loss_streak">entry_loss_streak</field>
                                                                                                                         <value name="VALUE">
-                                                                                                                          <block type="math_number" id="(xf)!$1I$^^|WZN?T188">
+                                                                                                                          <block type="math_number" id="!X5`00xmR6t_(jc!n7^H">
                                                                                                                             <field name="NUM">0</field>
                                                                                                                           </block>
                                                                                                                         </value>
+                                                                                                                        <next>
+                                                                                                                          <block type="variables_set" id="w5(az{r4o)LdSl9[(-#o">
+                                                                                                                            <field name="VAR" id="v_prev_hist">prev_histogram</field>
+                                                                                                                            <value name="VALUE">
+                                                                                                                              <block type="math_number" id="(xf)!$1I$^^|WZN?T188">
+                                                                                                                                <field name="NUM">0</field>
+                                                                                                                              </block>
+                                                                                                                            </value>
+                                                                                                                          </block>
+                                                                                                                        </next>
                                                                                                                       </block>
                                                                                                                     </next>
                                                                                                                   </block>
@@ -1303,192 +1329,293 @@
                                               </block>
                                             </value>
                                             <next>
-                                              <block type="lists_setIndex" id="v(+7g()2wG@m/V4gk2$#">
-                                                <mutation xmlns="http://www.w3.org/1999/xhtml" at="false"></mutation>
-                                                <field name="MODE">INSERT</field>
-                                                <field name="WHERE">FIRST</field>
-                                                <value name="LIST">
-                                                  <block type="variables_get" id="mLfA4=NTq:taY=?0]VXc">
-                                                    <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</field>
-                                                  </block>
-                                                </value>
-                                                <value name="TO">
-                                                  <block type="variables_get" id="5=tu@Jk8GYfwz=@Oq5D(">
-                                                    <field name="VAR" id="=g@.dEx;.l|Dw{J(F0_x">Raw_Data</field>
-                                                  </block>
+                                              <block type="variables_set" id="tilt_set_price_now">
+                                                <field name="VAR" id="v_price_now">price_now</field>
+                                                <value name="VALUE">
+                                                  <block type="tick" id="tilt_price_now_tick"></block>
                                                 </value>
                                                 <next>
-                                                  <block type="controls_if" id="smi_data_length_guard">
-                                                    <value name="IF0">
-                                                      <block type="logic_compare" id="smi_data_length_compare">
-                                                        <field name="OP">GTE</field>
-                                                        <value name="A">
-                                                          <block type="lists_length" id="smi_data_length_block">
-                                                            <value name="VALUE">
-                                                              <block type="variables_get" id="smi_data_length_var">
-                                                                <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</field>
-                                                              </block>
-                                                            </value>
-                                                          </block>
-                                                        </value>
-                                                        <value name="B">
-                                                          <block type="math_number" id="smi_data_min_period">
-                                                            <field name="NUM">3</field>
-                                                          </block>
-                                                        </value>
+                                                  <block type="lists_setIndex" id="tilt_append_ticklist">
+                                                    <mutation xmlns="http://www.w3.org/1999/xhtml" at="false"></mutation>
+                                                    <field name="MODE">INSERT</field>
+                                                    <field name="WHERE">LAST</field>
+                                                    <value name="LIST">
+                                                      <block type="variables_get" id="tg_ticklist_append">
+                                                        <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
                                                       </block>
                                                     </value>
-                                                    <statement name="DO0">
-                                                      <block type="ema_statement" id="7Q299r/`gADH4_/!ck]q">
-                                                        <field name="VARIABLE" id="_0-cW.9/4PpYxKm7WZd3">SMI_EMA_1</field>
-                                                        <statement name="STATEMENT">
-                                                          <block type="input_list" id="UvAAi8f+L2b@FH_(DyL/" deletable="false" movable="false">
-                                                            <value name="INPUT_LIST">
-                                                              <block type="variables_get" id="k`SsIEqv}FX]=^lRyb3}">
-                                                                <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</field>
-                                                              </block>
-                                                            </value>
-                                                            <next>
-                                                              <block type="period" id=":_0|dxo@9qC58pk]v0au" deletable="false" movable="false">
-                                                                <value name="PERIOD">
-                                                                  <shadow type="math_number" id="]Bj7ZLDA(YS]=SHwO{Z|">
-                                                                    <field name="NUM">3</field>
-                                                                  </shadow>
+                                                    <value name="TO">
+                                                      <block type="variables_get" id="tg_pricenow_append">
+                                                        <field name="VAR" id="v_price_now">price_now</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="controls_if" id="tilt_trim_guard">
+                                                        <value name="IF0">
+                                                          <block type="logic_compare" id="tilt_trim_compare">
+                                                            <field name="OP">GT</field>
+                                                            <value name="A">
+                                                              <block type="lists_length" id="tilt_ticklist_len">
+                                                                <value name="VALUE">
+                                                                  <block type="variables_get" id="tg_ticklist_trim">
+                                                                    <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
+                                                                  </block>
                                                                 </value>
                                                               </block>
-                                                            </next>
+                                                            </value>
+                                                            <value name="B">
+                                                              <block type="variables_get" id="tg_N_trim">
+                                                                <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">N</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <statement name="DO0">
+                                                          <block type="lists_getIndex" id="tilt_remove_first">
+                                                            <mutation xmlns="http://www.w3.org/1999/xhtml" statement="true" at="false"></mutation>
+                                                            <field name="MODE">REMOVE</field>
+                                                            <field name="WHERE">FIRST</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get" id="tg_ticklist_remove">
+                                                                <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
+                                                              </block>
+                                                            </value>
                                                           </block>
                                                         </statement>
                                                         <next>
-                                                          <block type="lists_setIndex" id="6QjG36$|u4N#B$?u`Zks">
-                                                            <mutation xmlns="http://www.w3.org/1999/xhtml" at="false"></mutation>
-                                                            <field name="MODE">INSERT</field>
-                                                            <field name="WHERE">FIRST</field>
-                                                            <value name="LIST">
-                                                              <block type="variables_get" id="hZSry(GW8i/C1Z2|Pa#6">
-                                                                <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</field>
-                                                              </block>
-                                                            </value>
-                                                            <value name="TO">
-                                                              <block type="variables_get" id="AM)ljrV/H=]OqTaAf[01">
-                                                                <field name="VAR" id="_0-cW.9/4PpYxKm7WZd3">SMI_EMA_1</field>
-                                                              </block>
-                                                            </value>
-                                                            <next>
-                                                              <block type="controls_if" id="smi_smoothed_length_guard">
-                                                                <value name="IF0">
-                                                                  <block type="logic_compare" id="smi_smoothed_length_compare">
-                                                                    <field name="OP">GTE</field>
-                                                                    <value name="A">
-                                                                      <block type="lists_length" id="smi_smoothed_length_block">
-                                                                        <value name="VALUE">
-                                                                          <block type="variables_get" id="smi_smoothed_length_var">
-                                                                            <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</field>
-                                                                          </block>
-                                                                        </value>
-                                                                      </block>
-                                                                    </value>
-                                                                    <value name="B">
-                                                                      <block type="math_number" id="smi_smoothed_min_period">
-                                                                        <field name="NUM">3</field>
-                                                                      </block>
-                                                                    </value>
+                                                          <block type="controls_if" id="tilt_ema_init_guard">
+                                                            <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
+                                                            <value name="IF0">
+                                                              <block type="logic_compare" id="tilt_ema_zero_check">
+                                                                <field name="OP">EQ</field>
+                                                                <value name="A">
+                                                                  <block type="variables_get" id="tg_ema_check">
+                                                                    <field name="VAR" id="v_ema">ema</field>
                                                                   </block>
                                                                 </value>
-                                                                <statement name="DO0">
-                                                                  <block type="ema_statement" id=",@t@h]([KRa+dXAqxx^D">
-                                                                    <field name="VARIABLE" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
-                                                                    <statement name="STATEMENT">
-                                                                      <block type="input_list" id="J7|g9U_W~+w}`?GP:.9R" deletable="false" movable="false">
-                                                                        <value name="INPUT_LIST">
-                                                                          <block type="variables_get" id="--N7MVV1*F]qVNXu]y7V">
-                                                                            <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</field>
+                                                                <value name="B">
+                                                                  <block type="math_number" id="tilt_ema_zero_val">
+                                                                    <field name="NUM">0</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <statement name="DO0">
+                                                              <block type="variables_set" id="tilt_init_ema_first">
+                                                                <field name="VAR" id="v_ema">ema</field>
+                                                                <value name="VALUE">
+                                                                  <block type="variables_get" id="tg_pricenow_ema_init">
+                                                                    <field name="VAR" id="v_price_now">price_now</field>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="variables_set" id="tilt_set_tilt_d0">
+                                                                    <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="math_arithmetic" id="tilt_tilt_minus_d0">
+                                                                        <field name="OP">MINUS</field>
+                                                                        <value name="A">
+                                                                          <shadow type="math_number" id="tt_a_s_d0"><field name="NUM">1</field></shadow>
+                                                                          <block type="variables_get" id="tg_ema_t_d0">
+                                                                            <field name="VAR" id="v_ema">ema</field>
                                                                           </block>
                                                                         </value>
-                                                                        <next>
-                                                                          <block type="period" id="M?:M3z9UwO{tR68HG5c," deletable="false" movable="false">
-                                                                            <value name="PERIOD">
-                                                                              <shadow type="math_number" id="HmcbrrzBXx}T!V]AL@GN">
-                                                                                <field name="NUM">3</field>
-                                                                              </shadow>
-                                                                            </value>
+                                                                        <value name="B">
+                                                                          <shadow type="math_number" id="tt_b_s_d0"><field name="NUM">1</field></shadow>
+                                                                          <block type="variables_get" id="tg_emaprev_d0">
+                                                                            <field name="VAR" id="v_ema_prev">ema_prev</field>
                                                                           </block>
-                                                                        </next>
+                                                                        </value>
                                                                       </block>
-                                                                    </statement>
+                                                                    </value>
                                                                     <next>
-                                                                      <block type="variables_set" id="GCBmoXWq?,Pdw*j*]v`w">
-                                                                        <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
+                                                                      <block type="variables_set" id="tilt_set_maxN_d0">
+                                                                        <field name="VAR" id="v_maxN">maxN</field>
                                                                         <value name="VALUE">
-                                                                          <block type="math_arithmetic" id="{m=1m)?4L,pYyV(U5KQ2">
-                                                                            <field name="OP">MULTIPLY</field>
-                                                                            <value name="A">
-                                                                              <shadow type="math_number" id="@%V{:]*ET_`%2iiN6D`g">
-                                                                                <field name="NUM">1</field>
-                                                                              </shadow>
-                                                                              <block type="variables_get" id="}qZay^5_N-qd?haaaguP">
-                                                                                <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
+                                                                          <block type="math_on_list" id="tilt_maxN_list_d0">
+                                                                            <field name="OP">MAX</field>
+                                                                            <value name="LIST">
+                                                                              <block type="variables_get" id="tg_maxN_tl_d0">
+                                                                                <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
                                                                               </block>
                                                                             </value>
-                                                                            <value name="B">
-                                                                              <shadow type="math_number" id="-@2ZB!bkA[S`f?yjUTNE">
-                                                                                <field name="NUM">100</field>
-                                                                              </shadow>
-                                                                            </value>
                                                                           </block>
                                                                         </value>
                                                                         <next>
-                                                                          <block type="variables_set" id="sC+C29f;6?JN1tJYz9y?">
-                                                                            <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                                                          <block type="variables_set" id="tilt_set_minN_d0">
+                                                                            <field name="VAR" id="v_minN">minN</field>
                                                                             <value name="VALUE">
-                                                                              <block type="math_single" id="UB6?%;/=6YP*M%0y/@YH">
-                                                                                <field name="OP">ABS</field>
-                                                                                <value name="NUM">
-                                                                                  <shadow type="math_number" id="cf]r$d14gU8nB,^LY;Bi">
-                                                                                    <field name="NUM">9</field>
-                                                                                  </shadow>
-                                                                                  <block type="math_arithmetic" id="vryiBCJy^-w/g/s?W!aq">
-                                                                                    <field name="OP">MINUS</field>
-                                                                                    <value name="A">
-                                                                                      <shadow type="math_number" id="dLR,`L8VH9gm/`0Ih|m;">
-                                                                                        <field name="NUM">1</field>
-                                                                                      </shadow>
-                                                                                      <block type="variables_get" id="Mq1tC$=hY@*/qoWy|BCa">
-                                                                                        <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
-                                                                                      </block>
-                                                                                    </value>
-                                                                                    <value name="B">
-                                                                                      <shadow type="math_number" id="e_AkUB2e03QE7ayZvP0y">
-                                                                                        <field name="NUM">1</field>
-                                                                                      </shadow>
-                                                                                      <block type="variables_get" id="@B,_h)9vZrA_5rmRQ{R5">
-                                                                                        <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">SMI_Prior</field>
-                                                                                      </block>
-                                                                                    </value>
+                                                                              <block type="math_on_list" id="tilt_minN_list_d0">
+                                                                                <field name="OP">MIN</field>
+                                                                                <value name="LIST">
+                                                                                  <block type="variables_get" id="tg_minN_tl_d0">
+                                                                                    <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
                                                                                   </block>
                                                                                 </value>
                                                                               </block>
                                                                             </value>
                                                                             <next>
-                                                                              <block type="notify" id="zyUm)LRBZ/cP!/:HpT^S">
-                                                                                <field name="NOTIFICATION_TYPE">success</field>
-                                                                                <field name="NOTIFICATION_SOUND">silent</field>
-                                                                                <value name="MESSAGE">
-                                                                                  <shadow type="text" id="SQXh6;F7t+{Fy7YFI*9z">
-                                                                                    <field name="TEXT">abc</field>
-                                                                                  </shadow>
-                                                                                  <block type="variables_get" id="nR,t_`jNY.)(V%$6NZ)U">
-                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                                                              <block type="variables_set" id="tilt_set_rangeN_d0">
+                                                                                <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="math_arithmetic" id="tilt_rangeN_calc_d0">
+                                                                                    <field name="OP">MINUS</field>
+                                                                                    <value name="A">
+                                                                                      <shadow type="math_number" id="trN_a_s_d0"><field name="NUM">1</field></shadow>
+                                                                                      <block type="variables_get" id="tg_maxN_rN_d0">
+                                                                                        <field name="VAR" id="v_maxN">maxN</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <shadow type="math_number" id="trN_b_s_d0"><field name="NUM">1</field></shadow>
+                                                                                      <block type="variables_get" id="tg_minN_rN_d0">
+                                                                                        <field name="VAR" id="v_minN">minN</field>
+                                                                                      </block>
+                                                                                    </value>
                                                                                   </block>
                                                                                 </value>
                                                                                 <next>
-                                                                                  <block type="variables_set" id="miQi_,.Ov74t8-kR#6?j">
-                                                                                    <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">SMI_Prior</field>
+                                                                                  <block type="variables_set" id="tilt_set_tnorm_d0">
+                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
                                                                                     <value name="VALUE">
-                                                                                      <block type="variables_get" id="jQeF4Xmn%$pBQIHATR8H">
-                                                                                        <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
+                                                                                      <block type="math_arithmetic" id="tilt_tnorm_div_d0">
+                                                                                        <field name="OP">DIVIDE</field>
+                                                                                        <value name="A">
+                                                                                          <shadow type="math_number" id="tn_a_s_d0"><field name="NUM">1</field></shadow>
+                                                                                          <block type="math_arithmetic" id="tilt_tnorm_100mul_d0">
+                                                                                            <field name="OP">MULTIPLY</field>
+                                                                                            <value name="A">
+                                                                                              <shadow type="math_number" id="tn_100_s_d0"><field name="NUM">100</field></shadow>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <shadow type="math_number" id="tn_t_s_d0"><field name="NUM">1</field></shadow>
+                                                                                              <block type="variables_get" id="tg_tilt_tnorm_d0">
+                                                                                                <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="B">
+                                                                                          <shadow type="math_number" id="tn_d_s_d0"><field name="NUM">1</field></shadow>
+                                                                                          <block type="math_arithmetic" id="tilt_tnorm_denom_d0">
+                                                                                            <field name="OP">ADD</field>
+                                                                                            <value name="A">
+                                                                                              <shadow type="math_number" id="tn_da_s_d0"><field name="NUM">1</field></shadow>
+                                                                                              <block type="variables_get" id="tg_rangeN_tnorm_d0">
+                                                                                                <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <shadow type="math_number" id="tn_db_s_d0"><field name="NUM">1</field></shadow>
+                                                                                              <block type="variables_get" id="tg_epsilon_tnorm_d0">
+                                                                                                <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
                                                                                       </block>
                                                                                     </value>
+                                                                                    <next>
+                                                                                      <block type="variables_set" id="tilt_update_tema_d0">
+                                                                                        <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="math_arithmetic" id="tilt_tema_add_d0">
+                                                                                            <field name="OP">ADD</field>
+                                                                                            <value name="A">
+                                                                                              <shadow type="math_number" id="te_a_s_d0"><field name="NUM">1</field></shadow>
+                                                                                              <block type="variables_get" id="tg_tiltema1_d0">
+                                                                                                <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <shadow type="math_number" id="te_b_s_d0"><field name="NUM">1</field></shadow>
+                                                                                              <block type="math_arithmetic" id="tilt_tema_gmul_d0">
+                                                                                                <field name="OP">MULTIPLY</field>
+                                                                                                <value name="A">
+                                                                                                  <shadow type="math_number" id="te_g_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                  <block type="variables_get" id="tg_gamma_tema_d0">
+                                                                                                    <field name="VAR" id="v_gamma">gamma</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="B">
+                                                                                                  <shadow type="math_number" id="te_tb_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                  <block type="math_arithmetic" id="tilt_tiltmintema_d0">
+                                                                                                    <field name="OP">MINUS</field>
+                                                                                                    <value name="A">
+                                                                                                      <shadow type="math_number" id="te_tma_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="variables_get" id="tg_tilt_tema_d0">
+                                                                                                        <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <value name="B">
+                                                                                                      <shadow type="math_number" id="te_tmb_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="variables_get" id="tg_tiltema2_d0">
+                                                                                                        <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="variables_set" id="tilt_set_temanorm_d0">
+                                                                                            <field name="VAR" id="v_tilt_ema_norm">tilt_ema_norm</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="math_arithmetic" id="tilt_temanorm_div_d0">
+                                                                                                <field name="OP">DIVIDE</field>
+                                                                                                <value name="A">
+                                                                                                  <shadow type="math_number" id="ten_a_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                  <block type="math_arithmetic" id="tilt_temanorm_100mul_d0">
+                                                                                                    <field name="OP">MULTIPLY</field>
+                                                                                                    <value name="A">
+                                                                                                      <shadow type="math_number" id="ten_100_s_d0"><field name="NUM">100</field></shadow>
+                                                                                                    </value>
+                                                                                                    <value name="B">
+                                                                                                      <shadow type="math_number" id="ten_t_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="variables_get" id="tg_tiltema_temanorm_d0">
+                                                                                                        <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="B">
+                                                                                                  <shadow type="math_number" id="ten_d_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                  <block type="math_arithmetic" id="tilt_temanorm_denom_d0">
+                                                                                                    <field name="OP">ADD</field>
+                                                                                                    <value name="A">
+                                                                                                      <shadow type="math_number" id="ten_da_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="variables_get" id="tg_rangeN_temanorm_d0">
+                                                                                                        <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <value name="B">
+                                                                                                      <shadow type="math_number" id="ten_db_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="variables_get" id="tg_epsilon_temanorm_d0">
+                                                                                                        <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <next>
+                                                                                              <block type="notify" id="tilt_log_d0">
+                                                                                                <field name="NOTIFICATION_TYPE">success</field>
+                                                                                                <field name="NOTIFICATION_SOUND">silent</field>
+                                                                                                <value name="MESSAGE">
+                                                                                                  <shadow type="text" id="tilt_log_shadow_d0"><field name="TEXT">tilt_log</field></shadow>
+                                                                                                  <block type="variables_get" id="tg_tnorm_log_d0">
+                                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
                                                                                   </block>
                                                                                 </next>
                                                                               </block>
@@ -1498,91 +1625,301 @@
                                                                       </block>
                                                                     </next>
                                                                   </block>
-                                                                </statement>
-                                                                <next>
-                                                                  <block type="notify" id=".k.ep4V,88ajkDau#|u%" disabled="true">
-                                                                    <field name="NOTIFICATION_TYPE">info</field>
-                                                                    <field name="NOTIFICATION_SOUND">silent</field>
-                                                                    <value name="MESSAGE">
-                                                                      <shadow type="text" id="SQXh6;F7t+{Fy7YFI*9z">
-                                                                        <field name="TEXT">abc</field>
-                                                                      </shadow>
-                                                                      <block type="variables_get" id="sZsixF!HSD*qS12gY70o">
-                                                                        <field name="VAR" id="_0-cW.9/4PpYxKm7WZd3">SMI_EMA_1</field>
-                                                                      </block>
-                                                                    </value>
-                                                                  </block>
                                                                 </next>
                                                               </block>
-                                                            </next>
-                                                          </block>
-                                                        </next>
-                                                      </block>
-                                                    </statement>
-                                                    <next>
-                                                      <block type="controls_if" id="I3q@ZM)$jpfX4QlF9QOS">
-                                                        <value name="IF0">
-                                                          <block type="logic_compare" id="sad-EA4OoagP[|h}@4Vy">
-                                                            <field name="OP">GT</field>
-                                                            <value name="A">
-                                                              <block type="lists_length" id="f,rj.Q[H^zdDG#,cY]+W">
+                                                            </statement>
+                                                            <statement name="ELSE">
+                                                              <block type="variables_set" id="tilt_set_ema_prev">
+                                                                <field name="VAR" id="v_ema_prev">ema_prev</field>
                                                                 <value name="VALUE">
-                                                                  <block type="variables_get" id="6*Tu:_*DO[(`Z`V=Kqs:">
-                                                                    <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</field>
+                                                                  <block type="variables_get" id="tg_ema_to_prev">
+                                                                    <field name="VAR" id="v_ema">ema</field>
                                                                   </block>
                                                                 </value>
-                                                              </block>
-                                                            </value>
-                                                            <value name="B">
-                                                              <block type="math_number" id="H7.rHK5hLHgDC{]^$G{!">
-                                                                <field name="NUM">20</field>
-                                                              </block>
-                                                            </value>
-                                                          </block>
-                                                        </value>
-                                                        <statement name="DO0">
-                                                          <block type="lists_getIndex" id="LGC)zjFtv34zpnHR9JmJ">
-                                                            <mutation xmlns="http://www.w3.org/1999/xhtml" statement="true" at="false"></mutation>
-                                                            <field name="MODE">REMOVE</field>
-                                                            <field name="WHERE">LAST</field>
-                                                            <value name="VALUE">
-                                                              <block type="variables_get" id="#251,?4dbuMv{t4qjcZq">
-                                                                <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">SMI_Data_List</field>
-                                                              </block>
-                                                            </value>
-                                                          </block>
-                                                        </statement>
-                                                        <next>
-                                                          <block type="controls_if" id="jvV,EuK62WbM-|x74mv!">
-                                                            <value name="IF0">
-                                                              <block type="logic_compare" id="ya)3WTID{WuP^hbMZ=X|">
-                                                                <field name="OP">GT</field>
-                                                                <value name="A">
-                                                                  <block type="lists_length" id="N$|5[`Y9T%@nh4%a5HVY">
+                                                                <next>
+                                                                  <block type="variables_set" id="tilt_set_diff">
+                                                                    <field name="VAR" id="v_diff">diff</field>
                                                                     <value name="VALUE">
-                                                                      <block type="variables_get" id="?g~Ryz[p2WgK3xlv`b4a">
-                                                                        <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</field>
+                                                                      <block type="math_arithmetic" id="tilt_diff_calc">
+                                                                        <field name="OP">MINUS</field>
+                                                                        <value name="A">
+                                                                          <shadow type="math_number" id="diff_a_s"><field name="NUM">1</field></shadow>
+                                                                          <block type="variables_get" id="tg_pricenow_diff">
+                                                                            <field name="VAR" id="v_price_now">price_now</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <shadow type="math_number" id="diff_b_s"><field name="NUM">1</field></shadow>
+                                                                          <block type="variables_get" id="tg_ema_diff">
+                                                                            <field name="VAR" id="v_ema">ema</field>
+                                                                          </block>
+                                                                        </value>
                                                                       </block>
                                                                     </value>
+                                                                    <next>
+                                                                      <block type="variables_set" id="tilt_set_adj">
+                                                                        <field name="VAR" id="v_adj">adj</field>
+                                                                        <value name="VALUE">
+                                                                          <block type="math_arithmetic" id="tilt_adj_calc">
+                                                                            <field name="OP">MULTIPLY</field>
+                                                                            <value name="A">
+                                                                              <shadow type="math_number" id="adj_a_s"><field name="NUM">1</field></shadow>
+                                                                              <block type="variables_get" id="tg_alpha_adj">
+                                                                                <field name="VAR" id="_0-cW.9/4PpYxKm7WZd3">alpha</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <shadow type="math_number" id="adj_b_s"><field name="NUM">1</field></shadow>
+                                                                              <block type="variables_get" id="tg_diff_adj">
+                                                                                <field name="VAR" id="v_diff">diff</field>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="variables_set" id="tilt_update_ema">
+                                                                            <field name="VAR" id="v_ema">ema</field>
+                                                                            <value name="VALUE">
+                                                                              <block type="math_arithmetic" id="tilt_ema_add_adj">
+                                                                                <field name="OP">ADD</field>
+                                                                                <value name="A">
+                                                                                  <shadow type="math_number" id="ema_a_s"><field name="NUM">1</field></shadow>
+                                                                                  <block type="variables_get" id="tg_ema_base">
+                                                                                    <field name="VAR" id="v_ema">ema</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="B">
+                                                                                  <shadow type="math_number" id="ema_b_s"><field name="NUM">1</field></shadow>
+                                                                                  <block type="variables_get" id="tg_adj_ema">
+                                                                                    <field name="VAR" id="v_adj">adj</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="variables_set" id="tilt_set_tilt_el">
+                                                                                <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="math_arithmetic" id="tilt_tilt_minus_el">
+                                                                                    <field name="OP">MINUS</field>
+                                                                                    <value name="A">
+                                                                                      <shadow type="math_number" id="tt_a_s_el"><field name="NUM">1</field></shadow>
+                                                                                      <block type="variables_get" id="tg_ema_t_el">
+                                                                                        <field name="VAR" id="v_ema">ema</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <shadow type="math_number" id="tt_b_s_el"><field name="NUM">1</field></shadow>
+                                                                                      <block type="variables_get" id="tg_emaprev_el">
+                                                                                        <field name="VAR" id="v_ema_prev">ema_prev</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <next>
+                                                                                  <block type="variables_set" id="tilt_set_maxN_el">
+                                                                                    <field name="VAR" id="v_maxN">maxN</field>
+                                                                                    <value name="VALUE">
+                                                                                      <block type="math_on_list" id="tilt_maxN_list_el">
+                                                                                        <field name="OP">MAX</field>
+                                                                                        <value name="LIST">
+                                                                                          <block type="variables_get" id="tg_maxN_tl_el">
+                                                                                            <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <next>
+                                                                                      <block type="variables_set" id="tilt_set_minN_el">
+                                                                                        <field name="VAR" id="v_minN">minN</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="math_on_list" id="tilt_minN_list_el">
+                                                                                            <field name="OP">MIN</field>
+                                                                                            <value name="LIST">
+                                                                                              <block type="variables_get" id="tg_minN_tl_el">
+                                                                                                <field name="VAR" id="wyH7=]DV[E#j!QdPjJly">tick_list</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="variables_set" id="tilt_set_rangeN_el">
+                                                                                            <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="math_arithmetic" id="tilt_rangeN_calc_el">
+                                                                                                <field name="OP">MINUS</field>
+                                                                                                <value name="A">
+                                                                                                  <shadow type="math_number" id="trN_a_s_el"><field name="NUM">1</field></shadow>
+                                                                                                  <block type="variables_get" id="tg_maxN_rN_el">
+                                                                                                    <field name="VAR" id="v_maxN">maxN</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="B">
+                                                                                                  <shadow type="math_number" id="trN_b_s_el"><field name="NUM">1</field></shadow>
+                                                                                                  <block type="variables_get" id="tg_minN_rN_el">
+                                                                                                    <field name="VAR" id="v_minN">minN</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <next>
+                                                                                              <block type="variables_set" id="tilt_set_tnorm_el">
+                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                                <value name="VALUE">
+                                                                                                  <block type="math_arithmetic" id="tilt_tnorm_div_el">
+                                                                                                    <field name="OP">DIVIDE</field>
+                                                                                                    <value name="A">
+                                                                                                      <shadow type="math_number" id="tn_a_s_el"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="math_arithmetic" id="tilt_tnorm_100mul_el">
+                                                                                                        <field name="OP">MULTIPLY</field>
+                                                                                                        <value name="A">
+                                                                                                          <shadow type="math_number" id="tn_100_s_el"><field name="NUM">100</field></shadow>
+                                                                                                        </value>
+                                                                                                        <value name="B">
+                                                                                                          <shadow type="math_number" id="tn_t_s_el"><field name="NUM">1</field></shadow>
+                                                                                                          <block type="variables_get" id="tg_tilt_tnorm_el">
+                                                                                                            <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <value name="B">
+                                                                                                      <shadow type="math_number" id="tn_d_s_el"><field name="NUM">1</field></shadow>
+                                                                                                      <block type="math_arithmetic" id="tilt_tnorm_denom_el">
+                                                                                                        <field name="OP">ADD</field>
+                                                                                                        <value name="A">
+                                                                                                          <shadow type="math_number" id="tn_da_s_el"><field name="NUM">1</field></shadow>
+                                                                                                          <block type="variables_get" id="tg_rangeN_tnorm_el">
+                                                                                                            <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <value name="B">
+                                                                                                          <shadow type="math_number" id="tn_db_s_el"><field name="NUM">1</field></shadow>
+                                                                                                          <block type="variables_get" id="tg_epsilon_tnorm_el">
+                                                                                                            <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <next>
+                                                                                                  <block type="variables_set" id="tilt_update_tema_el">
+                                                                                                    <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                                    <value name="VALUE">
+                                                                                                      <block type="math_arithmetic" id="tilt_tema_add_el">
+                                                                                                        <field name="OP">ADD</field>
+                                                                                                        <value name="A">
+                                                                                                          <shadow type="math_number" id="te_a_s_el"><field name="NUM">1</field></shadow>
+                                                                                                          <block type="variables_get" id="tg_tiltema1_el">
+                                                                                                            <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <value name="B">
+                                                                                                          <shadow type="math_number" id="te_b_s_el"><field name="NUM">1</field></shadow>
+                                                                                                          <block type="math_arithmetic" id="tilt_tema_gmul_el">
+                                                                                                            <field name="OP">MULTIPLY</field>
+                                                                                                            <value name="A">
+                                                                                                              <shadow type="math_number" id="te_g_s_el"><field name="NUM">1</field></shadow>
+                                                                                                              <block type="variables_get" id="tg_gamma_tema_el">
+                                                                                                                <field name="VAR" id="v_gamma">gamma</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                            <value name="B">
+                                                                                                              <shadow type="math_number" id="te_tb_s_el"><field name="NUM">1</field></shadow>
+                                                                                                              <block type="math_arithmetic" id="tilt_tiltmintema_el">
+                                                                                                                <field name="OP">MINUS</field>
+                                                                                                                <value name="A">
+                                                                                                                  <shadow type="math_number" id="te_tma_s_el"><field name="NUM">1</field></shadow>
+                                                                                                                  <block type="variables_get" id="tg_tilt_tema_el">
+                                                                                                                    <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                                <value name="B">
+                                                                                                                  <shadow type="math_number" id="te_tmb_s_el"><field name="NUM">1</field></shadow>
+                                                                                                                  <block type="variables_get" id="tg_tiltema2_el">
+                                                                                                                    <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <next>
+                                                                                                      <block type="variables_set" id="tilt_set_temanorm_el">
+                                                                                                        <field name="VAR" id="v_tilt_ema_norm">tilt_ema_norm</field>
+                                                                                                        <value name="VALUE">
+                                                                                                          <block type="math_arithmetic" id="tilt_temanorm_div_el">
+                                                                                                            <field name="OP">DIVIDE</field>
+                                                                                                            <value name="A">
+                                                                                                              <shadow type="math_number" id="ten_a_s_el"><field name="NUM">1</field></shadow>
+                                                                                                              <block type="math_arithmetic" id="tilt_temanorm_100mul_el">
+                                                                                                                <field name="OP">MULTIPLY</field>
+                                                                                                                <value name="A">
+                                                                                                                  <shadow type="math_number" id="ten_100_s_el"><field name="NUM">100</field></shadow>
+                                                                                                                </value>
+                                                                                                                <value name="B">
+                                                                                                                  <shadow type="math_number" id="ten_t_s_el"><field name="NUM">1</field></shadow>
+                                                                                                                  <block type="variables_get" id="tg_tiltema_temanorm_el">
+                                                                                                                    <field name="VAR" id="v_tilt_ema">tilt_ema</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                            <value name="B">
+                                                                                                              <shadow type="math_number" id="ten_d_s_el"><field name="NUM">1</field></shadow>
+                                                                                                              <block type="math_arithmetic" id="tilt_temanorm_denom_el">
+                                                                                                                <field name="OP">ADD</field>
+                                                                                                                <value name="A">
+                                                                                                                  <shadow type="math_number" id="ten_da_s_el"><field name="NUM">1</field></shadow>
+                                                                                                                  <block type="variables_get" id="tg_rangeN_temanorm_el">
+                                                                                                                    <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                                <value name="B">
+                                                                                                                  <shadow type="math_number" id="ten_db_s_el"><field name="NUM">1</field></shadow>
+                                                                                                                  <block type="variables_get" id="tg_epsilon_temanorm_el">
+                                                                                                                    <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <next>
+                                                                                                          <block type="notify" id="tilt_log_el">
+                                                                                                            <field name="NOTIFICATION_TYPE">success</field>
+                                                                                                            <field name="NOTIFICATION_SOUND">silent</field>
+                                                                                                            <value name="MESSAGE">
+                                                                                                              <shadow type="text" id="tilt_log_shadow_el"><field name="TEXT">tilt_log</field></shadow>
+                                                                                                              <block type="variables_get" id="tg_tnorm_log_el">
+                                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </next>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
                                                                   </block>
-                                                                </value>
-                                                                <value name="B">
-                                                                  <block type="math_number" id=";U3T3{r;Hg_0nN;Y9T%Y">
-                                                                    <field name="NUM">20</field>
-                                                                  </block>
-                                                                </value>
-                                                              </block>
-                                                            </value>
-                                                            <statement name="DO0">
-                                                              <block type="lists_getIndex" id="nO,Sabk8,2:Aiib`ejab">
-                                                                <mutation xmlns="http://www.w3.org/1999/xhtml" statement="true" at="false"></mutation>
-                                                                <field name="MODE">REMOVE</field>
-                                                                <field name="WHERE">LAST</field>
-                                                                <value name="VALUE">
-                                                                  <block type="variables_get" id="r,v^uA;/%^+%|^A7QWJE">
-                                                                    <field name="VAR" id="k0U[iGvT9WD_-b|IMFqW">SMI_Smoothed_List</field>
-                                                                  </block>
-                                                                </value>
+                                                                </next>
                                                               </block>
                                                             </statement>
                                                             <next>
@@ -2085,7 +2422,7 @@
                                                                                                                                                                 <field name="TEXT">abc</field>
                                                                                                                                                               </shadow>
                                                                                                                                                               <block type="variables_get" id="hRml_~vA}2S`y/bWX)[X">
-                                                                                                                                                                <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">SMI_Final</field>
+                                                                                                                                                                <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
                                                                                                                                                               </block>
                                                                                                                                                             </value>
                                                                                                                                                             <next>
@@ -2210,7 +2547,7 @@
                                                                                                                                                                             <field name="OP">GT</field>
                                                                                                                                                                             <value name="A">
                                                                                                                                                                               <block type="variables_get" id="_O+MT|x72W`230[^iV/[">
-                                                                                                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                                                                                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
                                                                                                                                                                               </block>
                                                                                                                                                                             </value>
                                                                                                                                                                             <value name="B">
@@ -2364,7 +2701,7 @@
                                                                                                                                                                                                                 <field name="VAR" id="v_entry_loss_streak">entry_loss_streak</field>
                                                                                                                                                                                                                 <value name="VALUE">
                                                                                                                                                                                                                   <block type="variables_get" id="CyP?S@b]0;Dls;b~D*bf">
-                                                                                                                                                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                                                                                                                                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
                                                                                                                                                                                                                   </block>
                                                                                                                                                                                                                 </value>
                                                                                                                                                                                                                 <next>
@@ -2666,7 +3003,7 @@
                                                                                                                                                                             <field name="OP">GT</field>
                                                                                                                                                                             <value name="A">
                                                                                                                                                                               <block type="variables_get" id="NdZ9%1XQK^~uZ3#Fq:Ps">
-                                                                                                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                                                                                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
                                                                                                                                                                               </block>
                                                                                                                                                                             </value>
                                                                                                                                                                             <value name="B">
@@ -2820,7 +3157,7 @@
                                                                                                                                                                                                                 <field name="VAR" id="v_entry_loss_streak">entry_loss_streak</field>
                                                                                                                                                                                                                 <value name="VALUE">
                                                                                                                                                                                                                   <block type="variables_get" id="Of%#/1L{30:$hw.LF-#C">
-                                                                                                                                                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">SMI_Slope</field>
+                                                                                                                                                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
                                                                                                                                                                                                                   </block>
                                                                                                                                                                                                                 </value>
                                                                                                                                                                                                                 <next>
