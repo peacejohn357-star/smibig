@@ -1492,16 +1492,16 @@
                                                                                          </value>
                                                                                        </block>
                                                                                      </value>
-                                                                                     <statement name="DO0">
-                                                                                       <block type="variables_set" id="tilt_set_tnorm_zero_d0">
-                                                                                         <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
-                                                                                         <value name="VALUE">
-                                                                                           <block type="math_number" id="tilt_tnorm_zero_val_d0">
-                                                                                             <field name="NUM">0</field>
-                                                                                           </block>
-                                                                                         </value>
-                                                                                       </block>
-                                                                                     </statement>
+                                                                                      <statement name="DO0">
+                                                                                        <block type="variables_set" id="tilt_set_tnorm_zero_d0">
+                                                                                          <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                          <value name="VALUE">
+                                                                                            <block type="variables_get" id="tilt_tnorm_fallback_d0">
+                                                                                              <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                            </block>
+                                                                                          </value>
+                                                                                        </block>
+                                                                                      </statement>
                                                                                      <statement name="ELSE">
                                                                                        <block type="variables_set" id="tilt_set_tnorm_d0">
                                                                                          <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
@@ -1810,16 +1810,16 @@
                                                                                                      </value>
                                                                                                    </block>
                                                                                                  </value>
-                                                                                                 <statement name="DO0">
-                                                                                                   <block type="variables_set" id="tilt_set_tnorm_zero_el">
-                                                                                                     <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
-                                                                                                     <value name="VALUE">
-                                                                                                       <block type="math_number" id="tilt_tnorm_zero_val_el">
-                                                                                                         <field name="NUM">0</field>
-                                                                                                       </block>
-                                                                                                     </value>
-                                                                                                   </block>
-                                                                                                 </statement>
+                                                                                                  <statement name="DO0">
+                                                                                                    <block type="variables_set" id="tilt_set_tnorm_zero_el">
+                                                                                                      <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                                      <value name="VALUE">
+                                                                                                        <block type="variables_get" id="tilt_tnorm_fallback_el">
+                                                                                                          <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                                        </block>
+                                                                                                      </value>
+                                                                                                    </block>
+                                                                                                  </statement>
                                                                                                  <statement name="ELSE">
                                                                                                    <block type="variables_set" id="tilt_set_tnorm_el">
                                                                                                      <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
