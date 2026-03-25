@@ -1474,49 +1474,79 @@
                                                                                     </value>
                                                                                   </block>
                                                                                 </value>
-                                                                                <next>
-                                                                                  <block type="variables_set" id="tilt_set_tnorm_d0">
-                                                                                    <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
-                                                                                    <value name="VALUE">
-                                                                                      <block type="math_arithmetic" id="tilt_tnorm_div_d0">
-                                                                                        <field name="OP">DIVIDE</field>
-                                                                                        <value name="A">
-                                                                                          <shadow type="math_number" id="tn_a_s_d0"><field name="NUM">1</field></shadow>
-                                                                                          <block type="math_arithmetic" id="tilt_tnorm_100mul_d0">
-                                                                                            <field name="OP">MULTIPLY</field>
-                                                                                            <value name="A">
-                                                                                              <shadow type="math_number" id="tn_100_s_d0"><field name="NUM">100</field></shadow>
-                                                                                            </value>
-                                                                                            <value name="B">
-                                                                                              <shadow type="math_number" id="tn_t_s_d0"><field name="NUM">1</field></shadow>
-                                                                                              <block type="variables_get" id="tg_tilt_tnorm_d0">
-                                                                                                <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
-                                                                                              </block>
-                                                                                            </value>
-                                                                                          </block>
-                                                                                        </value>
-                                                                                        <value name="B">
-                                                                                          <shadow type="math_number" id="tn_d_s_d0"><field name="NUM">1</field></shadow>
-                                                                                          <block type="math_arithmetic" id="tilt_tnorm_denom_d0">
-                                                                                            <field name="OP">ADD</field>
-                                                                                            <value name="A">
-                                                                                              <shadow type="math_number" id="tn_da_s_d0"><field name="NUM">1</field></shadow>
-                                                                                              <block type="variables_get" id="tg_rangeN_tnorm_d0">
-                                                                                                <field name="VAR" id="v_rangeN">rangeN</field>
-                                                                                              </block>
-                                                                                            </value>
-                                                                                            <value name="B">
-                                                                                              <shadow type="math_number" id="tn_db_s_d0"><field name="NUM">1</field></shadow>
-                                                                                              <block type="variables_get" id="tg_epsilon_tnorm_d0">
-                                                                                                <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
-                                                                                              </block>
-                                                                                            </value>
-                                                                                          </block>
-                                                                                        </value>
-                                                                                      </block>
-                                                                                    </value>
-                                                                                    <next>
-                                                                                      <block type="variables_set" id="tilt_update_tema_d0">
+                                                                                 <next>
+                                                                                   <block type="controls_if" id="tilt_tnorm_guard_d0">
+                                                                                     <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
+                                                                                     <value name="IF0">
+                                                                                       <block type="logic_compare" id="tilt_tnorm_guard_check_d0">
+                                                                                         <field name="OP">LTE</field>
+                                                                                         <value name="A">
+                                                                                           <block type="variables_get" id="tg_rangeN_tnorm_guard_d0">
+                                                                                             <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                           </block>
+                                                                                         </value>
+                                                                                         <value name="B">
+                                                                                           <block type="variables_get" id="tg_epsilon_tnorm_guard_d0">
+                                                                                             <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                           </block>
+                                                                                         </value>
+                                                                                       </block>
+                                                                                     </value>
+                                                                                     <statement name="DO0">
+                                                                                       <block type="variables_set" id="tilt_set_tnorm_zero_d0">
+                                                                                         <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                         <value name="VALUE">
+                                                                                           <block type="math_number" id="tilt_tnorm_zero_val_d0">
+                                                                                             <field name="NUM">0</field>
+                                                                                           </block>
+                                                                                         </value>
+                                                                                       </block>
+                                                                                     </statement>
+                                                                                     <statement name="ELSE">
+                                                                                       <block type="variables_set" id="tilt_set_tnorm_d0">
+                                                                                         <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                         <value name="VALUE">
+                                                                                           <block type="math_arithmetic" id="tilt_tnorm_div_d0">
+                                                                                             <field name="OP">DIVIDE</field>
+                                                                                             <value name="A">
+                                                                                               <shadow type="math_number" id="tn_a_s_d0"><field name="NUM">1</field></shadow>
+                                                                                               <block type="math_arithmetic" id="tilt_tnorm_100mul_d0">
+                                                                                                 <field name="OP">MULTIPLY</field>
+                                                                                                 <value name="A">
+                                                                                                   <shadow type="math_number" id="tn_100_s_d0"><field name="NUM">100</field></shadow>
+                                                                                                 </value>
+                                                                                                 <value name="B">
+                                                                                                   <shadow type="math_number" id="tn_t_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                   <block type="variables_get" id="tg_tilt_tnorm_d0">
+                                                                                                     <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                                   </block>
+                                                                                                 </value>
+                                                                                               </block>
+                                                                                             </value>
+                                                                                             <value name="B">
+                                                                                               <shadow type="math_number" id="tn_d_s_d0"><field name="NUM">1</field></shadow>
+                                                                                               <block type="math_arithmetic" id="tilt_tnorm_denom_d0">
+                                                                                                 <field name="OP">ADD</field>
+                                                                                                 <value name="A">
+                                                                                                   <shadow type="math_number" id="tn_da_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                   <block type="variables_get" id="tg_rangeN_tnorm_d0">
+                                                                                                     <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                                   </block>
+                                                                                                 </value>
+                                                                                                 <value name="B">
+                                                                                                   <shadow type="math_number" id="tn_db_s_d0"><field name="NUM">1</field></shadow>
+                                                                                                   <block type="variables_get" id="tg_epsilon_tnorm_d0">
+                                                                                                     <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                                   </block>
+                                                                                                 </value>
+                                                                                               </block>
+                                                                                             </value>
+                                                                                           </block>
+                                                                                         </value>
+                                                                                       </block>
+                                                                                     </statement>
+                                                                                     <next>
+                                                                                       <block type="variables_set" id="tilt_update_tema_d0">
                                                                                         <field name="VAR" id="v_tilt_ema">tilt_ema</field>
                                                                                         <value name="VALUE">
                                                                                           <block type="math_arithmetic" id="tilt_tema_add_d0">
@@ -1762,49 +1792,79 @@
                                                                                                 </value>
                                                                                               </block>
                                                                                             </value>
-                                                                                            <next>
-                                                                                              <block type="variables_set" id="tilt_set_tnorm_el">
-                                                                                                <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
-                                                                                                <value name="VALUE">
-                                                                                                  <block type="math_arithmetic" id="tilt_tnorm_div_el">
-                                                                                                    <field name="OP">DIVIDE</field>
-                                                                                                    <value name="A">
-                                                                                                      <shadow type="math_number" id="tn_a_s_el"><field name="NUM">1</field></shadow>
-                                                                                                      <block type="math_arithmetic" id="tilt_tnorm_100mul_el">
-                                                                                                        <field name="OP">MULTIPLY</field>
-                                                                                                        <value name="A">
-                                                                                                          <shadow type="math_number" id="tn_100_s_el"><field name="NUM">100</field></shadow>
-                                                                                                        </value>
-                                                                                                        <value name="B">
-                                                                                                          <shadow type="math_number" id="tn_t_s_el"><field name="NUM">1</field></shadow>
-                                                                                                          <block type="variables_get" id="tg_tilt_tnorm_el">
-                                                                                                            <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
-                                                                                                          </block>
-                                                                                                        </value>
-                                                                                                      </block>
-                                                                                                    </value>
-                                                                                                    <value name="B">
-                                                                                                      <shadow type="math_number" id="tn_d_s_el"><field name="NUM">1</field></shadow>
-                                                                                                      <block type="math_arithmetic" id="tilt_tnorm_denom_el">
-                                                                                                        <field name="OP">ADD</field>
-                                                                                                        <value name="A">
-                                                                                                          <shadow type="math_number" id="tn_da_s_el"><field name="NUM">1</field></shadow>
-                                                                                                          <block type="variables_get" id="tg_rangeN_tnorm_el">
-                                                                                                            <field name="VAR" id="v_rangeN">rangeN</field>
-                                                                                                          </block>
-                                                                                                        </value>
-                                                                                                        <value name="B">
-                                                                                                          <shadow type="math_number" id="tn_db_s_el"><field name="NUM">1</field></shadow>
-                                                                                                          <block type="variables_get" id="tg_epsilon_tnorm_el">
-                                                                                                            <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
-                                                                                                          </block>
-                                                                                                        </value>
-                                                                                                      </block>
-                                                                                                    </value>
-                                                                                                  </block>
-                                                                                                </value>
-                                                                                                <next>
-                                                                                                  <block type="variables_set" id="tilt_update_tema_el">
+                                                                                             <next>
+                                                                                               <block type="controls_if" id="tilt_tnorm_guard_el">
+                                                                                                 <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
+                                                                                                 <value name="IF0">
+                                                                                                   <block type="logic_compare" id="tilt_tnorm_guard_check_el">
+                                                                                                     <field name="OP">LTE</field>
+                                                                                                     <value name="A">
+                                                                                                       <block type="variables_get" id="tg_rangeN_tnorm_guard_el">
+                                                                                                         <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                                       </block>
+                                                                                                     </value>
+                                                                                                     <value name="B">
+                                                                                                       <block type="variables_get" id="tg_epsilon_tnorm_guard_el">
+                                                                                                         <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                                       </block>
+                                                                                                     </value>
+                                                                                                   </block>
+                                                                                                 </value>
+                                                                                                 <statement name="DO0">
+                                                                                                   <block type="variables_set" id="tilt_set_tnorm_zero_el">
+                                                                                                     <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                                     <value name="VALUE">
+                                                                                                       <block type="math_number" id="tilt_tnorm_zero_val_el">
+                                                                                                         <field name="NUM">0</field>
+                                                                                                       </block>
+                                                                                                     </value>
+                                                                                                   </block>
+                                                                                                 </statement>
+                                                                                                 <statement name="ELSE">
+                                                                                                   <block type="variables_set" id="tilt_set_tnorm_el">
+                                                                                                     <field name="VAR" id=")wcj2VHiZgYsL+^pz1EF">tilt_norm</field>
+                                                                                                     <value name="VALUE">
+                                                                                                       <block type="math_arithmetic" id="tilt_tnorm_div_el">
+                                                                                                         <field name="OP">DIVIDE</field>
+                                                                                                         <value name="A">
+                                                                                                           <shadow type="math_number" id="tn_a_s_el"><field name="NUM">1</field></shadow>
+                                                                                                           <block type="math_arithmetic" id="tilt_tnorm_100mul_el">
+                                                                                                             <field name="OP">MULTIPLY</field>
+                                                                                                             <value name="A">
+                                                                                                               <shadow type="math_number" id="tn_100_s_el"><field name="NUM">100</field></shadow>
+                                                                                                             </value>
+                                                                                                             <value name="B">
+                                                                                                               <shadow type="math_number" id="tn_t_s_el"><field name="NUM">1</field></shadow>
+                                                                                                               <block type="variables_get" id="tg_tilt_tnorm_el">
+                                                                                                                 <field name="VAR" id="SsOL)9k:n-YE{IyR]r-z">tilt</field>
+                                                                                                               </block>
+                                                                                                             </value>
+                                                                                                           </block>
+                                                                                                         </value>
+                                                                                                         <value name="B">
+                                                                                                           <shadow type="math_number" id="tn_d_s_el"><field name="NUM">1</field></shadow>
+                                                                                                           <block type="math_arithmetic" id="tilt_tnorm_denom_el">
+                                                                                                             <field name="OP">ADD</field>
+                                                                                                             <value name="A">
+                                                                                                               <shadow type="math_number" id="tn_da_s_el"><field name="NUM">1</field></shadow>
+                                                                                                               <block type="variables_get" id="tg_rangeN_tnorm_el">
+                                                                                                                 <field name="VAR" id="v_rangeN">rangeN</field>
+                                                                                                               </block>
+                                                                                                             </value>
+                                                                                                             <value name="B">
+                                                                                                               <shadow type="math_number" id="tn_db_s_el"><field name="NUM">1</field></shadow>
+                                                                                                               <block type="variables_get" id="tg_epsilon_tnorm_el">
+                                                                                                                 <field name="VAR" id="?m3=qi+=vGv+,$THi-j6">epsilon</field>
+                                                                                                               </block>
+                                                                                                             </value>
+                                                                                                           </block>
+                                                                                                         </value>
+                                                                                                       </block>
+                                                                                                     </value>
+                                                                                                   </block>
+                                                                                                 </statement>
+                                                                                                 <next>
+                                                                                                   <block type="variables_set" id="tilt_update_tema_el">
                                                                                                     <field name="VAR" id="v_tilt_ema">tilt_ema</field>
                                                                                                     <value name="VALUE">
                                                                                                       <block type="math_arithmetic" id="tilt_tema_add_el">
